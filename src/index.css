@@ -5396,3 +5396,194 @@ button:disabled {
     height: 30px;
   }
 }
+/* =========================================================
+   SILVATATTOOS — ENHANCED ARTIST SELECTION
+========================================================= */
+
+.booking-artist-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.booking-artist-option {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: block;
+  min-width: 0;
+  min-height: 220px;
+  padding: 32px;
+  border: 1px solid #393939;
+  border-radius: 12px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(230, 57, 70, 0.22),
+      transparent 48%
+    ),
+    linear-gradient(145deg, #1c1c1c, #0b0b0b 75%);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.booking-artist-option::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: #e63946;
+  transform: scaleY(0.15);
+  opacity: 0.6;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.booking-artist-option::after {
+  content: "SELECT ARTIST ↗";
+  display: inline-flex;
+  align-items: center;
+  margin-top: 26px;
+  padding: 10px 13px;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  color: #ccc;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.booking-artist-option:hover {
+  transform: translateY(-4px);
+  border-color: #e63946;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(230, 57, 70, 0.3),
+      transparent 55%
+    ),
+    linear-gradient(145deg, #222, #0d0d0d 75%);
+  box-shadow: 0 15px 35px rgba(230, 57, 70, 0.12);
+}
+
+.booking-artist-option:hover::before {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.booking-artist-option:hover::after {
+  background: #e63946;
+  border-color: #e63946;
+  color: #fff;
+}
+
+.booking-artist-option.selected,
+.booking-artist-option:has(input:checked) {
+  border-color: #e63946;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(230, 57, 70, 0.3),
+      transparent 55%
+    ),
+    linear-gradient(145deg, #241315, #100c0c 75%);
+  box-shadow:
+    0 0 0 1px rgba(230, 57, 70, 0.3),
+    0 15px 35px rgba(230, 57, 70, 0.12);
+}
+
+.booking-artist-option.selected::before,
+.booking-artist-option:has(input:checked)::before {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.booking-artist-option.selected::after,
+.booking-artist-option:has(input:checked)::after {
+  content: "✓ ARTIST SELECTED";
+  background: #e63946;
+  border-color: #e63946;
+  color: #fff;
+}
+
+.booking-artist-option strong {
+  position: relative;
+  display: block;
+  margin-bottom: 14px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.booking-artist-option p {
+  position: relative;
+  max-width: 420px;
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.booking-artist-option:focus-within {
+  outline: 2px solid #e63946;
+  outline-offset: 4px;
+}
+
+.booking-artist-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.booking-artist-option:has(input:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .booking-artist-options {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .booking-artist-option {
+    min-height: 190px;
+    padding: 25px;
+  }
+
+  .booking-artist-option strong {
+    font-size: 25px;
+  }
+
+  .booking-artist-option::after {
+    margin-top: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .booking-artist-option,
+  .booking-artist-option::before,
+  .booking-artist-option::after {
+    transition: none;
+  }
+}
+
