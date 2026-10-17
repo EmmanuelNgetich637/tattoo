@@ -17,6 +17,12 @@ router.get(
 );
 
 router.get(
+  "/bookings",
+  authenticateAdmin,
+  adminDashboardController.getBookings
+);
+
+router.get(
   "/recent-bookings",
   authenticateAdmin,
   adminDashboardController.getRecentBookings

@@ -187,6 +187,103 @@ async function getRecentBookings(req, res) {
   }
 }
 
+
+async function getBookings(req, res) {
+  try {
+    const values = [];
+    const conditions = [];
+
+    const status = String(req.query.status || "").trim();
+    const search = String(req.query.search || "").trim();
+
+    if (status && status !== "all") {
+      values.push(status);
+      conditions.push(`b.status = $${values.length}`);
+    }
+
+    if (search) {
+      values.push(`%${search}%`);
+      const p = `$${values.length}`;
+
+      conditions.push(`(
+        COALESCE(b.booking_reference, '') ILIKE ${p}
+        OR COALESCE(c.full_name, '') ILIKE ${p}
+        OR COALESCE(c.email, '') ILIKE ${p}
+        OR COALESCE(c.phone, '') ILIKE ${p}
+        OR COALESCE(b.tattoo_style, '') ILIKE ${p}
+        OR COALESCE(b.description, '') ILIKE ${p}
+        OR COALESCE(a.name, '') ILIKE ${p}
+      )`);
+    }
+
+    const whereClause = conditions.length
+      ? `WHERE ${conditions.join(" AND ")}`
+      : "";
+
+    const result = await pool.query(`
+      SELECT
+        b.id,
+        b.booking_reference,
+        b.artist_preference,
+        b.tattoo_style,
+        b.description,
+        b.placement,
+        b.tattoo_size,
+        b.preferred_date,
+        b.preferred_time,
+        b.notes,
+        b.status,
+        b.admin_notes,
+        b.created_at,
+        b.updated_at,
+        c.full_name,
+        c.email,
+        c.phone,
+        a.name AS artist_name
+      FROM bookings b
+      INNER JOIN customers c
+        ON c.id = b.customer_id
+      LEFT JOIN artists a
+        ON a.id = b.artist_id
+      ${whereClause}
+      ORDER BY b.created_at DESC
+    `, values);
+
+    return res.json({
+      success: true,
+      bookings: result.rows.map((booking) => ({
+        id: booking.id,
+        reference: booking.booking_reference,
+        customer: {
+          fullName: booking.full_name,
+          email: booking.email,
+          phone: booking.phone
+        },
+        artist: booking.artist_name,
+        artistPreference: booking.artist_preference,
+        style: booking.tattoo_style,
+        description: booking.description,
+        placement: booking.placement,
+        size: booking.tattoo_size,
+        preferredDate: booking.preferred_date,
+        preferredTime: booking.preferred_time,
+        notes: booking.notes,
+        status: booking.status,
+        adminNotes: booking.admin_notes,
+        createdAt: booking.created_at,
+        updatedAt: booking.updated_at
+      }))
+    });
+  } catch (error) {
+    console.error("Admin bookings error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to retrieve bookings."
+    });
+  }
+}
+
 async function getBooking(req, res) {
   const bookingId = Number(req.params.id);
 
@@ -492,6 +589,7 @@ async function updateBookingStatus(req, res) {
 module.exports = {
   getStats,
   getRecentBookings,
+  getBookings,
   getBooking,
   updateBookingStatus
 };
