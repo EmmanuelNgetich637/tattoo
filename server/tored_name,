@@ -1,0 +1,5 @@
+ id | booking_reference  |   full_name   |      email       |   phone    | artist_preference | tattoo_style | placement | tattoo_size | preferred_date | preferred_time | status  
+----+--------------------+---------------+------------------+------------+-------------------+--------------+-----------+-------------+----------------+----------------+---------
+  1 | ST-MU44FF8C-FCE1BD | Test Customer | test@example.com | 5551234567 | Artist One        | Blackwork    | Upper arm | Medium      | 2026-10-15     | 14:00:00       | pending
+(1 row)
+
