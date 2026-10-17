@@ -179,25 +179,35 @@ function Home() {
         className="work-section"
       >
 
-        <div className="section-heading">
-
-          <div>
-
-            <p className="section-label">
-              Selected work
-            </p>
-
-
+        <div className="section-heading choose-heading">
+          <div className="choose-heading-copy">
+            <p className="section-label">THE SILVATATTOOS COLLECTION</p>
             <h2>
-              Recent
-
-              <span>
-                {" "}pieces.
-              </span>
+              Choose your
+              <br />
+              <span>next tattoo.</span>
             </h2>
-
+            <p className="choose-description">
+              Find a design that speaks to you. Explore different
+              styles, discover your inspiration, and make it your own.
+            </p>
           </div>
 
+          <div className="choose-index">
+            <span className="choose-index-number">
+              {String(filteredTattoos.length).padStart(2, "0")}
+            </span>
+            <span className="choose-index-label">
+              DESIGNS<br />AVAILABLE
+            </span>
+          </div>
+        </div>
+
+        <div className="collection-toolbar">
+          <span className="collection-toolbar-label">✳ FIND YOUR STYLE</span>
+          <span className="collection-count">
+            {filteredTattoos.length} designs
+          </span>
         </div>
 
 
